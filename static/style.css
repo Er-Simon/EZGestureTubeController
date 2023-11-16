@@ -1,0 +1,36 @@
+html, body {
+    color: #282828;
+}
+
+
+.my-nav-link {
+    color: #282828 !important;
+}
+
+.my-nav-link:hover {
+    color: rgba(204,0,0,0.9) !important;
+}
+
+.my-active {
+    background-color: rgba(204,0,0,0.9) !important;
+    color: white !important;
+    font-weight: 500 !important;
+}
+
+.my-active:hover {
+    color: #282828 !important;
+}
+
+.my-button {
+    background-color: rgba(204,0,0,0.9) !important;
+    color: white !important;
+    font-weight: 500 !important;
+}
+
+.my-button:hover {
+    color: #282828 !important;
+}
+
+.my-border {
+    border-bottom: 5px solid rgba(204,0,0,0.9);
+}

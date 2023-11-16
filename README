@@ -1,0 +1,9 @@
+#   Flask
+flask --app main run
+
+flask run
+
+flask run --debug
+
+#     IFrame Player API
+https://developers.google.com/youtube/iframe_api_reference#playVideo
