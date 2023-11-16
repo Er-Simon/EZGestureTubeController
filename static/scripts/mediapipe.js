@@ -22,9 +22,6 @@ let runningMode = "IMAGE";
 let enableWebcamButton;
 let webcamRunning = false;
 
-const videoHeight = "360px";
-const videoWidth = "480px";
-
 // Before we can use HandLandmarker class we must wait for it to finish
 // loading. Machine Learning models can be large and take a moment to
 // get everything needed to run.
@@ -126,9 +123,7 @@ async function predictWebcam() {
   canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
   const drawingUtils = new DrawingUtils(canvasCtx);
   canvasElement.style.height = `${webcamElement.offsetHeight}px`;
-  //webcamElement.style.height = videoHeight;
   canvasElement.style.width = `${webcamElement.offsetWidth}px`;
-  //webcamElement.style.width = videoWidth;
 
   canvasElement.style.left = `${webcamElement.offsetLeft}px`;
 
