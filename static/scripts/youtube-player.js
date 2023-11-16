@@ -42,8 +42,8 @@ function onPlayerReady() {
 
 function swGetYoutubeVids(playerById, videoId) {
   player = new YT.Player(playerById, {
-    width: '560',
-    height: '315',
+    width: "100%",
+    height: "480",
     videoId: videoId,
     events: {
       onReady: onPlayerReady
