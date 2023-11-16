@@ -65,12 +65,19 @@ function parseToAction(value) {
     newAction = "ThreeFingers"
   } else if (value == 4) {
     newAction = "FourFingers"
+  } else if (value == 5) {
+    newAction = "FiveFingers"
+  } else if (value == 6) {
+    newAction = "SixFingers"
+  } else if (value == 7) {
+    newAction = "SevenFingers"
+  } else if (value == 8) {
+    newAction = "EightFingers"
   }
-
   return newAction
 }
 
-function YTPlayerController(action) {
+function YTPlayerController(rightHandGesture, leftHandGesture, fingerCount) {
   if (player == null || isReady == false) {
     return
   }
@@ -79,6 +86,10 @@ function YTPlayerController(action) {
     var currentTime = Date.now()
 
     if (currentTime - timestampLastCommand > PAUSE_BETWEEN_COMMANDS_IN_MILLIS) {
+      var action = 
+        (leftHandGesture == 'None' ? null : leftHandGesture) || 
+        (rightHandGesture == 'None' ? null : rightHandGesture) ||
+        fingerCount
 
       if (Number.isInteger(action))
         action = parseToAction(action)

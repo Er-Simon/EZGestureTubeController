@@ -37,7 +37,12 @@ html, body {
 
 .my-width {
     width: 100% !important;
-    border-radius: 0 !important;
+}
+
+@media (max-width: 576px) {
+    .my-width {
+        border-radius: 0 !important;
+    }
 }
 
 @media (min-width: 576px) {

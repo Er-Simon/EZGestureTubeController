@@ -18,7 +18,7 @@ const loadingElement = document.getElementById("loading");
 const demosSection = document.getElementById("demos");
 
 let gestureRecognizer;
-let runningMode = "IMAGE";
+let runningMode = "VIDEO";
 let enableWebcamButton;
 let webcamRunning = false;
 
@@ -36,6 +36,7 @@ const createGestureRecognizer = async () => {
       delegate: "GPU",
     },
     runningMode: runningMode,
+    numHands: 2
   });
 
   loadingElement.classList.add("d-none");
@@ -51,6 +52,8 @@ const video = document.getElementById("webcam");
 const canvasElement = document.getElementById("output_canvas");
 const canvasCtx = canvasElement.getContext("2d");
 //const gestureOutput = document.getElementById("gesture_output");
+
+const canvasWidth = canvasElement.width
 
 // Check if webcam access is supported.
 function hasGetUserMedia() {
@@ -107,12 +110,6 @@ let results = undefined;
 async function predictWebcam() {
   const webcamElement = document.getElementById("webcam");
 
-  // Now let's start detecting the stream.
-  if (runningMode === "IMAGE") {
-    runningMode = "VIDEO";
-    await gestureRecognizer.setOptions({ runningMode: "VIDEO" });
-  }
-
   let nowInMs = Date.now();
   if (video.currentTime !== lastVideoTime) {
     lastVideoTime = video.currentTime;
@@ -126,8 +123,6 @@ async function predictWebcam() {
   canvasElement.style.width = `${webcamElement.offsetWidth}px`;
 
   canvasElement.style.left = `${webcamElement.offsetLeft}px`;
-
-  //console.log(results)
 
   if (results.landmarks) {
 
@@ -149,75 +144,82 @@ async function predictWebcam() {
 
   canvasCtx.restore();
 
+  var rightHandGesture = null
+  var leftHandGesture = null
+  var totalFingerCount = 0
+
   if (results.gestures.length > 0) {
     if (webcamRunning) {
-      //gestureOutput.style.width = videoWidth
-      const categoryName = results.gestures[0][0].categoryName;
-      const categoryScore = parseFloat(
-        results.gestures[0][0].score * 100
-      ).toFixed(2);
+      for (var i = 0; i < results.gestures.length; i++) {
 
-      const handLabel = results.handednesses[0][0].displayName;
+        var categoryName = results.gestures[i][0].categoryName;
 
-      var fingerCount = 0
-      var landmarks = []
+        var categoryScore = parseFloat(
+          results.gestures[i][0].score * 100
+        ).toFixed(2);
 
-      for (const landmark of results.landmarks[0]) {
-        landmarks.push([landmark.x, landmark.y])
-      }
+        var handLabel = results.handednesses[i][0].displayName;
 
-      if (handLabel == "Left" && landmarks[4][0] > landmarks[3][0]) {
-        fingerCount = fingerCount+1
-      } else if (handLabel == "Right" && landmarks[4][0] < landmarks[3][0]) {
-        fingerCount = fingerCount+1
-      }
+        if (handLabel == "Right") {
+          rightHandGesture = categoryName
+        } else if (handLabel == "Left") {
+          leftHandGesture = categoryName
+        }
 
-      if (landmarks[8][1] < landmarks[6][1])  
-        fingerCount = fingerCount+1
-      if (landmarks[12][1] < landmarks[10][1])
-        fingerCount = fingerCount+1
-      if (landmarks[16][1] < landmarks[14][1])
-         fingerCount = fingerCount+1
-      if (landmarks[20][1] < landmarks[18][1])
-        fingerCount = fingerCount+1
+        var fingerCount = 0
+        var landmarks = []
 
-      var gestureOutput = `GestureRecognizer: ${categoryName}\nConfidence: ${categoryScore} %\nHandedness: ${handLabel}\nFingerCount: ${fingerCount}`;
+        for (const landmark of results.landmarks[i]) {
+          landmarks.push([landmark.x, landmark.y])
+        }
 
-      var offset = 10
-      var lineheight = 38
+        if (handLabel == "Left" && landmarks[4][0] > landmarks[3][0]) {
+          fingerCount = fingerCount+1
+        } else if (handLabel == "Right" && landmarks[4][0] < landmarks[3][0]) {
+          fingerCount = fingerCount+1
+        }
 
-      var lines = gestureOutput.split("").join(String.fromCharCode(8202)).split('\n')
+        if (landmarks[8][1] < landmarks[6][1])  
+          fingerCount = fingerCount+1
+        if (landmarks[12][1] < landmarks[10][1])
+          fingerCount = fingerCount+1
+        if (landmarks[16][1] < landmarks[14][1])
+          fingerCount = fingerCount+1
+        if (landmarks[20][1] < landmarks[18][1])
+          fingerCount = fingerCount+1
 
-      canvasCtx.font = "38px Arial";
+        totalFingerCount += fingerCount
 
-      var textMaxWidth = lines.map(
-        (text) => canvasCtx.measureText(text).width
-      )
+        var gestureOutput = `GestureRecognizer: ${categoryName}\nConfidence: ${categoryScore} %\nHandedness: ${handLabel}\nFingerCount: ${fingerCount}`;
 
-      textMaxWidth = Math.max.apply(Math, textMaxWidth);
+        var offset = 10
+        var lineheight = 38
 
-      canvasCtx.textAlign='start';
-      canvasCtx.textBaseline='top';
+        var lines = gestureOutput.split("").join(String.fromCharCode(8202)).split('\n')
 
-      canvasCtx.fillStyle = 'rgba(0, 0, 0, .6)';
-      canvasCtx.fillRect(0, 0, textMaxWidth + (offset * 2), (lines.length * lineheight) + (offset * 2));
+        canvasCtx.font = "36px Arial";
 
-      canvasCtx.fillStyle = 'white';
+        var textMaxWidth = lines.map(
+          (text) => canvasCtx.measureText(text).width
+        )
 
-      for (var i = 0; i < lines.length; i++) 
-        canvasCtx.fillText(lines[i], offset, offset + (i * lineheight))
+        textMaxWidth = Math.max.apply(Math, textMaxWidth);
 
-      if (categoryName !== 'None') {
-        YTPlayerController(categoryName)
-      } else if (fingerCount) {
-        YTPlayerController(fingerCount)
+        canvasCtx.textAlign='start';
+        canvasCtx.textBaseline='top';
+
+        canvasCtx.fillStyle = 'rgba(0, 0, 0, .6)';
+        canvasCtx.fillRect((canvasWidth - textMaxWidth - offset) * i, 0, textMaxWidth + (offset * 2), (lines.length * lineheight) + (offset * 2));
+
+        canvasCtx.fillStyle = 'white';
+
+        for (var j = 0; j < lines.length; j++) 
+          canvasCtx.fillText(lines[j], (canvasWidth - textMaxWidth - offset) * i + offset, offset + (j * lineheight))
       }
       
-      //gestureOutput.classList.remove("d-none");
+      YTPlayerController(rightHandGesture, leftHandGesture, totalFingerCount)
     }
-  } //else {
-    //gestureOutput.classList.add("d-none");
-  //}
+  } 
 
   // Call this function again to keep predicting when the browser is ready.
   if (webcamRunning === true) {
