@@ -34,10 +34,14 @@
         <section id="demos" class="d-none">
           <div id="liveView" class="videoView">
             <button id="webcamButton" type="button" class="btn btn-danger my-button mb-4">Grant access to the webcam</button>
-            <div style="position: relative;">
-              <video id="webcam" class="d-none" autoplay="" playsinline="" style="height: 360px; width: 480px;"></video>
-              <canvas class="output_canvas d-none" id="output_canvas" width="1280" height="720" style="position: absolute; top: 0px; height: 360px; width: 480px;"></canvas>
-              <!-- <p id="gesture_output" class="text-center mt-2 d-none"></p> -->
+            <div class="row">
+              <div class="col-12 col-md-6 offset-md-3">
+                <div style="position: relative;">
+                  <video id="webcam" class="d-none" autoplay="" playsinline="" style="height: auto; width: 100%;"></video>
+                  <canvas class="output_canvas d-none" id="output_canvas" width="1280" height="720" style="position: absolute; top: 0px; height: auto; width: 100%;"></canvas>
+                  <!-- <p id="gesture_output" class="text-center mt-2 d-none"></p> -->
+                </div>
+              </div>
             </div>
           </div>
         </section>
@@ -71,8 +75,8 @@
           </div>
           <div class="text-center">
             <div class="row">
-              <div class="col-12">
-                <div id="player" class="my-4 d-none"></div>
+              <div class="col-12 my-4">
+                <div id="player" class="d-none"></div>
               </div>
             </div>
           </div>
