@@ -186,7 +186,7 @@ async function predictWebcam() {
       var offset = 10
       var lineheight = 38
 
-      var lines = gestureOutput.split('\n')
+      var lines = gestureOutput.split("").join(String.fromCharCode(8202)).split('\n')
 
       canvasCtx.font = "38px Arial";
 
