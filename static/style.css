@@ -37,6 +37,7 @@ html, body {
 
 .my-width {
     width: 100% !important;
+    border-radius: 0 !important;
 }
 
 @media (min-width: 576px) {
