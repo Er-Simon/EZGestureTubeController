@@ -30,14 +30,10 @@ const createGestureRecognizer = async () => {
     "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.3/wasm"
   );
 
-  var loc = window.location.pathname;
-
-  console.log("loc", loc)
-
   gestureRecognizer = await GestureRecognizer.createFromOptions(vision, {
     baseOptions: {
       modelAssetPath:
-        "/static/model/gesture_recognizer.task",
+        "https://github.com/Er-Simon/GestureRecognitionCustomModel/raw/main/gesture_recognizer.task",
       delegate: "GPU",
     },
     runningMode: runningMode,
