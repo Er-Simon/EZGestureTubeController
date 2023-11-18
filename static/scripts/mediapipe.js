@@ -33,7 +33,7 @@ const createGestureRecognizer = async () => {
   gestureRecognizer = await GestureRecognizer.createFromOptions(vision, {
     baseOptions: {
       modelAssetPath:
-        "https://github.com/Er-Simon/GestureRecognitionCustomModel/raw/main/gesture_recognizer.task",
+        "https://raw.githubusercontent.com/Er-Simon/GestureRecognitionCustomModel/main/gesture_recognizer.task",
       delegate: "GPU",
     },
     runningMode: runningMode,
