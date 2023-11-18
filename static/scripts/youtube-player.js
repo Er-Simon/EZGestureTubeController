@@ -86,16 +86,17 @@ function YTPlayerController(rightHandGesture, leftHandGesture, fingerCount) {
     var currentTime = Date.now()
 
     if (currentTime - timestampLastCommand > PAUSE_BETWEEN_COMMANDS_IN_MILLIS) {
+
       var action = 
-        (leftHandGesture == 'None' ? null : leftHandGesture) || 
-        (rightHandGesture == 'None' ? null : rightHandGesture) ||
-        fingerCount
-
-      if (Number.isInteger(action))
-        action = parseToAction(action)
+        (rightHandGesture in controlsToAction ? rightHandGesture : null) || 
+        (leftHandGesture in controlsToAction ? leftHandGesture : null)
       
-      if (action in controlsToAction) {
+      if (!action) {
+        if (Number.isInteger(fingerCount))
+          action = parseToAction(fingerCount)
+      }
 
+      if (action) {
         timestampLastCommand = Date.now()
 
         if (controlsToAction[action] == "playVideoControl") {

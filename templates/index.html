@@ -122,13 +122,16 @@
 
             <script>
               const controls = {
-                Closed_Fist: 'Closed fist ✊',
-                Open_Palm: 'Open palm ✋',
-                Pointing_Up: 'Pointing up ☝️',
-                Thumb_Down: 'Thumbs down 👎',
-                Thumb_Up: 'Thumbs up 👍',
-                Victory: 'Victory ✌️',
-                ILoveYou: 'Love 🤟',
+                closed_fist: 'Closed fist ✊',
+                open_palm: 'Open palm ✋',
+                mute: 'Silence 🤫',
+                stop: 'Raised Hand ✋',
+                one: 'Pointing up ☝️',
+                ok: 'OK Hand 👌',
+                dislike: 'Thumbs down 👎',
+                like: 'Thumbs up 👍',
+                peace: 'Victory ✌️',
+                rock: 'Rock 🤘',
                 TwoFingers: 'Two fingers',
                 ThreeFingers: 'Three fingers',
                 FourFingers: 'Four fingers',
@@ -139,12 +142,12 @@
               }
               
               var actionToControls = {
-                playVideoControl: 'Thumb_Up',
-                pauseVideoControl: 'Open_Palm',
-                volumeUpVideoControl: 'ILoveYou',
-                volumeDownVideoControl: 'Closed_Fist',
-                muteVideoControl: 'Thumb_Down',
-                unmuteVideoControl: 'Victory'
+                playVideoControl: 'ok',
+                pauseVideoControl: 'stop',
+                volumeUpVideoControl: 'rock',
+                volumeDownVideoControl: 'closed_fist',
+                muteVideoControl: 'mute',
+                unmuteVideoControl: 'like'
               }
               
               var userPreferences = window.localStorage.getItem('actionToControls')
