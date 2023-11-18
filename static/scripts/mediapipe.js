@@ -29,6 +29,11 @@ const createGestureRecognizer = async () => {
   const vision = await FilesetResolver.forVisionTasks(
     "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.3/wasm"
   );
+
+  var loc = window.location.pathname;
+
+  console.log("loc", loc)
+
   gestureRecognizer = await GestureRecognizer.createFromOptions(vision, {
     baseOptions: {
       modelAssetPath:
